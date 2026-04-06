@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>Maps | NEXUS: CONFLICT</title>
+    <meta name="description" content="Explore map lanes, site geometry, and strategic callouts for NEXUS: CONFLICT competitive play.">
+    <meta property="og:title" content="Maps | NEXUS: CONFLICT">
+    <meta property="og:description" content="Master chokepoints, rotation timings, and utility routes for every battleground.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/logos/og-image.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="assets/logos/og-image.svg">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/icons/favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="custom-cursor"></div>
+    <div class="scroll-progress"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-text">NEXUS</span>
+                <span class="logo-accent">CONFLICT</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="modes.html" class="nav-link">Modes</a></li>
+                <li><a href="operatives.html" class="nav-link">Operatives</a></li>
+                <li><a href="maps.html" class="nav-link active">Maps</a></li>
+                <li><a href="esports.html" class="nav-link">Esports</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a class="btn btn-primary" href="index.html#media">Watch Trailer</a>
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Open navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close" aria-label="Close menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
+        <ul class="mobile-nav-links">
+            <li><a href="index.html" class="mobile-link">Home</a></li>
+            <li><a href="modes.html" class="mobile-link">Modes</a></li>
+            <li><a href="operatives.html" class="mobile-link">Operatives</a></li>
+            <li><a href="maps.html" class="mobile-link active">Maps</a></li>
+            <li><a href="esports.html" class="mobile-link">Esports</a></li>
+        </ul>
+    </div>
+
+    <main class="page-main">
+        <section class="subpage-hero">
+            <div class="container">
+                <p class="subpage-kicker"><span class="label-dot"></span> Competitive Battlegrounds</p>
+                <h1 class="subpage-title">Map Design Built Around <span class="text-gradient">Counterplay</span></h1>
+                <p class="subpage-lead">Each battleground has deliberate sightline risk, utility depth, and rotation tradeoffs so team identity shapes map control from first contact to final clutch.</p>
+                <div class="hero-media-grid">
+                    <div class="hero-media-card">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1000&auto=format&fit=crop" alt="Industrial tactical map environment" loading="lazy" decoding="async">
+                        <span>Foundry District</span>
+                    </div>
+                    <div class="hero-media-card">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop" alt="Night city map lane" loading="lazy" decoding="async">
+                        <span>Neon Corridor</span>
+                    </div>
+                    <div class="hero-media-card">
+                        <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?q=80&w=1000&auto=format&fit=crop" alt="Vertical combat map with high ground" loading="lazy" decoding="async">
+                        <span>Skyline Vault</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-dark">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label"><span class="label-dot"></span><span>Active Pool</span></div>
+                    <h2 class="section-title">Current Ranked Map Rotation</h2>
+                </div>
+                <div class="neo-panel-grid">
+                    <article class="neo-panel">
+                        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="Foundry map">
+                        <div class="neo-panel-body">
+                            <h3 class="neo-panel-title">Foundry</h3>
+                            <p>Tight choke architecture with high utility value for smoke, flash, and entry chain timing.</p>
+                            <div class="chip-list"><span class="chip">Attack Favored</span><span class="chip">Split Entries</span></div>
+                        </div>
+                    </article>
+                    <article class="neo-panel">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" alt="Neon avenue map">
+                        <div class="neo-panel-body">
+                            <h3 class="neo-panel-title">Neon Avenue</h3>
+                            <p>Long-range lanes and quick vertical rotations demand disciplined crosshair and info control.</p>
+                            <div class="chip-list"><span class="chip">Mid Control</span><span class="chip">Rotation Heavy</span></div>
+                        </div>
+                    </article>
+                    <article class="neo-panel">
+                        <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?q=80&w=1200&auto=format&fit=crop" alt="Skyline map">
+                        <div class="neo-panel-body">
+                            <h3 class="neo-panel-title">Skyline</h3>
+                            <p>High-low combat layers where utility isolation and post-plant verticality define outcomes.</p>
+                            <div class="chip-list"><span class="chip">Vertical</span><span class="chip">Retake Focus</span></div>
+                        </div>
+                    </article>
+                    <article class="neo-panel">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1200&auto=format&fit=crop" alt="Harbor map">
+                        <div class="neo-panel-body">
+                            <h3 class="neo-panel-title">Harborline</h3>
+                            <p>Open coastal pressure map where timing windows and smoke discipline are everything.</p>
+                            <div class="chip-list"><span class="chip">Open Angles</span><span class="chip">Anchor Utility</span></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label"><span class="label-dot"></span><span>Callout Packs</span></div>
+                    <h2 class="section-title">Key Tactical Reference Zones</h2>
+                </div>
+                <div class="milestone-grid">
+                    <article class="milestone"><h4>A Site</h4><p>Default plant boxes, anti-flash corners, and lane cut utility references.</p></article>
+                    <article class="milestone"><h4>B Site</h4><p>Retake smoke layer templates with post-plant lineups for duelists and controllers.</p></article>
+                    <article class="milestone"><h4>Mid Lane</h4><p>Tempo swing protocols for split executes and anti-stack information checks.</p></article>
+                    <article class="milestone"><h4>Spawn Routes</h4><p>Fastest rotate paths and flank timing windows for each half-side composition.</p></article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <span>&copy; 2026 Nexus Games Studio. All rights reserved.</span>
+                    <span class="footer-divider">|</span>
+                    <span>NEXUS: CONFLICT is a trademark of Nexus Arena Entertainment.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="js/script.js"></script>
+</body>
+</html>
