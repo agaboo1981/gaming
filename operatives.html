@@ -4,168 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
-    <title>Operative Briefing Directory | NEXUS: CONFLICT</title>
+    <title>NEXUS: CONFLICT // OPERATIVE DOSSIERS</title>
     <meta name="description" content="Access specialized operative classes, role kits, and tactical ability profiles for NEXUS: CONFLICT operations.">
-    <meta property="og:title" content="Operative Briefing Directory | NEXUS: CONFLICT">
-    <meta property="og:description" content="Access specialized operative classes, role kits, and tactical ability profiles.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="assets/logos/og-image.svg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="assets/logos/og-image.svg">
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    <link rel="apple-touch-icon" href="assets/icons/favicon.svg">
-    <link rel="manifest" href="manifest.json">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="custom-cursor"></div>
-    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="custom-cursor" id="custom-cursor"></div>
+    <div class="scroll-progress" id="scroll-progress"></div>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <a href="index.html" class="nav-logo" aria-label="NEXUS CONFLICT home">
+            <a href="index.html" class="nav-logo">
                 <span class="logo-text">NEXUS</span>
                 <span class="logo-accent">// CONFLICT</span>
             </a>
+            
             <ul class="nav-links">
-                <li><a href="index.html" class="nav-link">Home</a></li>
-                <li><a href="modes.html" class="nav-link">Modes</a></li>
-                <li><a href="operatives.html" class="nav-link active">Operatives</a></li>
-                <li><a href="maps.html" class="nav-link">Maps</a></li>
-                <li><a href="esports.html" class="nav-link">Esports</a></li>
+                <li><a href="index.html" class="nav-link">Breach</a></li>
+                <li><a href="modes.html" class="nav-link">Directives</a></li>
+                <li><a href="operatives.html" class="nav-link active">Dossiers</a></li>
+                <li><a href="maps.html" class="nav-link">Topography</a></li>
+                <li><a href="esports.html" class="nav-link">Terminus</a></li>
             </ul>
+
             <div class="nav-actions">
-                <button class="btn btn-primary" data-open-modal="trailer-modal" aria-haspopup="dialog" aria-controls="trailer-modal">
-                    <span>PLAY_TRAILER //</span>
-                </button>
-                <button class="mobile-toggle" id="mobile-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <button class="btn btn-secondary" onclick="window.location.href='index.html#terminus'">
+                    <span>REQUEST_ACCESS //</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Navigation Menu -->
-    <div class="mobile-menu-overlay" id="mobile-menu-overlay" aria-hidden="true"></div>
-    <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-        <button class="mobile-close" id="mobile-close" aria-label="Close menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-        </button>
-        <ul class="mobile-nav-links">
-            <li><a href="index.html" class="mobile-link">Home</a></li>
-            <li><a href="modes.html" class="mobile-link">Modes</a></li>
-            <li><a href="operatives.html" class="mobile-link active">Operatives</a></li>
-            <li><a href="maps.html" class="mobile-link">Maps</a></li>
-            <li><a href="esports.html" class="mobile-link">Esports</a></li>
-        </ul>
-    </div>
+    <!-- Subpage Hero -->
+    <header class="subpage-hero">
+        <div class="container">
+            <div class="telemetry">OP_ROSTER_FILES</div>
+            <h1 class="section-title">ACTIVE OPERATIVES</h1>
+            <p class="section-subtitle">Read high-priority file dossiers detailing specialist background lore and tactical kits.</p>
+        </div>
+    </header>
 
-    <main class="page-main">
-        <!-- Interactive Operative Briefing Center -->
-        <section class="operative-center-section">
-            <div class="container">
-                <div class="hud-header">
-                    <div class="hud-breadcrumbs">DIR // SYS_CATALOG // OPERATOR_ROSTER</div>
-                    <div class="hud-divider-line"></div>
-                </div>
-
-                <!-- Split Layout: Selector Sidebar and Briefing Terminal -->
-                <div class="operative-terminal-grid">
-                    
-                    <!-- Left Sidebar Selector -->
-                    <div class="operative-selector-panel">
-                        <h2 class="terminal-sub-header">SELECT DIRECTIVE PROFILE</h2>
-                        <div class="operative-selection-list" role="tablist" aria-label="Select operative profile">
-                            <button class="selector-tile active interactive-element" role="tab" aria-selected="true" aria-controls="operative-details-panel" data-op-id="razeon">
-                                <span class="tile-number">01</span>
-                                <span class="tile-name">RAZEON</span>
-                                <span class="tile-role">DUELIST</span>
-                            </button>
-                            <button class="selector-tile interactive-element" role="tab" aria-selected="false" aria-controls="operative-details-panel" data-op-id="myra">
-                                <span class="tile-number">02</span>
-                                <span class="tile-name">MYRA</span>
-                                <span class="tile-role">CONTROLLER</span>
-                            </button>
-                            <button class="selector-tile interactive-element" role="tab" aria-selected="false" aria-controls="operative-details-panel" data-op-id="vex">
-                                <span class="tile-number">03</span>
-                                <span class="tile-name">VEX</span>
-                                <span class="tile-role">SENTINEL</span>
-                            </button>
-                            <button class="selector-tile interactive-element" role="tab" aria-selected="false" aria-controls="operative-details-panel" data-op-id="kairo">
-                                <span class="tile-number">04</span>
-                                <span class="tile-name">KAIRO</span>
-                                <span class="tile-role">INITIATOR</span>
-                            </button>
+    <!-- Subpage content -->
+    <main class="container subpage-grid">
+        <!-- Sector Specialist -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 120px; align-items: center;">
+            <div class="op-visual" style="background-image: url('assets/images/operative_sector.jpg'); min-height: 500px;"></div>
+            <div class="op-details">
+                <span class="op-class">CLASSIFIED // OP_01 // breacher</span>
+                <h2 class="op-name">SECTOR SPECIALIST</h2>
+                <p class="op-description">
+                    Born in the industrial dome zones, Sector Specialist specializes in front-line assault runs, kinetic shielding, and zone breach synchronization. His armor is modified to withstand direct orbital EMP anomalies.
+                </p>
+                <div class="op-abilities">
+                    <div class="ability-item">
+                        <div class="ability-icon">Q</div>
+                        <div class="ability-text">
+                            <h5>BALLISTIC PULSE</h5>
+                            <p>Emits an electromagnetic burst that disables enemy visor feeds within a 15m radius.</p>
                         </div>
                     </div>
-
-                    <!-- Right Display Terminal Panel -->
-                    <div class="operative-briefing-panel" id="operative-details-panel" role="tabpanel" aria-live="polite">
-                        <!-- Dynamic content will load here via JavaScript -->
-                        <div class="terminal-loader">INITIALIZING SENSORS...</div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Action Map Section -->
-        <section class="section">
-            <div class="container">
-                <div class="cta-banner">
-                    <div>
-                        <h3 class="cta-title">NEED GEOMETRY INTEL?</h3>
-                        <p class="cta-desc">Cross-reference active roles with spatial parameters and lane topology coordinates inside the Map intelligence files.</p>
-                    </div>
-                    <div class="section-cta">
-                        <a href="maps.html" class="btn btn-primary interactive-element">DECRYPT_MAPS //</a>
-                        <a href="esports.html" class="btn btn-secondary interactive-element">ESPORTS_TELEMETRY //</a>
+                    <div class="ability-item">
+                        <div class="ability-icon">E</div>
+                        <div class="ability-text">
+                            <h5>EXTRACTION BARRIER</h5>
+                            <p>Deploys a kinetic screen that absorbs projectile fire while securing extract beacons.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- Recon Sensor -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+            <div class="op-details">
+                <span class="op-class">CLASSIFIED // OP_02 // infiltrator</span>
+                <h2 class="op-name">RECON SENSOR</h2>
+                <p class="op-description">
+                    A former net-runner contractor hired by the syndicate to infiltrate secure hubs. She utilizes experimental light-bending active camo matrices to glide past security feeds and spot targets.
+                </p>
+                <div class="op-abilities">
+                    <div class="ability-item">
+                        <div class="ability-icon">Q</div>
+                        <div class="ability-text">
+                            <h5>ACTIVE CAMOUFLAGE</h5>
+                            <p>Bends light around the operative, reducing visibility to thermal and optical scanners for 8s.</p>
+                        </div>
+                    </div>
+                    <div class="ability-item">
+                        <div class="ability-icon">E</div>
+                        <div class="ability-text">
+                            <h5>TELEMETRY DART</h5>
+                            <p>Fires a dart that tracks movement through physical obstructions within the impact zone.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="op-visual" style="background-image: url('assets/images/operative_recon.jpg'); min-height: 500px;"></div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-bottom">
-                <div class="footer-legal">
-                    <span>&copy; 2026 Nexus Games Studio. All rights reserved.</span>
-                    <span class="footer-divider">|</span>
-                    <span>NEXUS: CONFLICT is a trademark of Nexus Arena Entertainment.</span>
-                </div>
+            <div class="footer-legal">
+                <span>SYS_STATUS: ACTIVE</span>
+                <span>GLOBAL EXTRACTION COUNTER: 2,491,084,103 SECURED</span>
             </div>
         </div>
     </footer>
-
-    <!-- Trailer Modal -->
-    <div class="modal" id="trailer-modal" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content trailer-modal-content">
-            <button class="modal-close" aria-label="Close modal">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-            </button>
-            <div class="video-container">
-                <div class="video-placeholder">
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <polygon points="5 3 19 12 5 21 5 3"/>
-                    </svg>
-                    <span>Trailer Coming Soon</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script type="module" src="js/script.js"></script>
 </body>
