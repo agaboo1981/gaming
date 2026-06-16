@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
-    <title>Game Modes | NEXUS: CONFLICT</title>
-    <meta name="description" content="Explore every competitive mode in NEXUS: CONFLICT, from high-stakes tactical rounds to objective-focused esports queues.">
-    <meta property="og:title" content="Game Modes | NEXUS: CONFLICT">
-    <meta property="og:description" content="Master tactical round flow, objective pressure, and ranked strategies.">
+    <title>Tactical Format Matrix | NEXUS: CONFLICT</title>
+    <meta name="description" content="Explore every competitive game mode, ranked progression ladder, and operational ruleset in NEXUS: CONFLICT.">
+    <meta property="og:title" content="Tactical Format Matrix | NEXUS: CONFLICT">
+    <meta property="og:description" content="Explore competitive game modes, ranked progression, and operational rulesets.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/logos/og-image.svg">
     <meta name="twitter:card" content="summary_large_image">
@@ -17,18 +17,19 @@
     <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="custom-cursor"></div>
-    <div class="scroll-progress"></div>
+    <div class="scroll-progress" aria-hidden="true"></div>
 
+    <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
-            <a href="index.html" class="nav-logo">
+            <a href="index.html" class="nav-logo" aria-label="NEXUS CONFLICT home">
                 <span class="logo-text">NEXUS</span>
-                <span class="logo-accent">CONFLICT</span>
+                <span class="logo-accent">// CONFLICT</span>
             </a>
             <ul class="nav-links">
                 <li><a href="index.html" class="nav-link">Home</a></li>
@@ -38,8 +39,10 @@
                 <li><a href="esports.html" class="nav-link">Esports</a></li>
             </ul>
             <div class="nav-actions">
-                <a class="btn btn-primary" href="index.html#media">Watch Trailer</a>
-                <button class="mobile-toggle" id="mobile-toggle" aria-label="Open navigation menu">
+                <button class="btn btn-primary" data-open-modal="trailer-modal" aria-haspopup="dialog" aria-controls="trailer-modal">
+                    <span>PLAY_TRAILER //</span>
+                </button>
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -48,8 +51,9 @@
         </div>
     </nav>
 
-    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
-    <div class="mobile-menu" id="mobile-menu">
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay" aria-hidden="true"></div>
+    <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
         <button class="mobile-close" id="mobile-close" aria-label="Close menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 6L6 18M6 6l12 12"/>
@@ -65,102 +69,172 @@
     </div>
 
     <main class="page-main">
-        <section class="subpage-hero">
+        <!-- Competitive Format Section -->
+        <section class="mode-center-section">
             <div class="container">
-                <p class="subpage-kicker"><span class="label-dot"></span> Tactical Format Library</p>
-                <h1 class="subpage-title">Competitive Modes Built For <span class="text-gradient">Decision-Makers</span></h1>
-                <p class="subpage-lead">Every mode in NEXUS: CONFLICT is tuned for clear strategic identity: economy pressure, utility timing, and role coordination that rewards team IQ as much as aim.</p>
-                <div class="hero-media-grid">
-                    <div class="hero-media-card">
-                        <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1000&auto=format&fit=crop" alt="Fast-paced round-based tactical action" loading="lazy" decoding="async">
-                        <span>Tactical Breach</span>
+                <div class="hud-header">
+                    <div class="hud-breadcrumbs">DIR // SYS_CATALOG // COMPETITIVE_FORMATS</div>
+                    <div class="hud-divider-line"></div>
+                </div>
+
+                <!-- Split Layout: Selector Sidebar and Briefing Terminal -->
+                <div class="mode-terminal-grid">
+                    
+                    <!-- Left Sidebar Selector -->
+                    <div class="mode-selector-panel">
+                        <h2 class="terminal-sub-header">SELECT MATCH FORMAT</h2>
+                        <div class="mode-selection-list" role="tablist" aria-label="Select match format">
+                            <button class="selector-tile active interactive-element" role="tab" aria-selected="true" aria-controls="mode-details-panel" data-mode-id="breach">
+                                <span class="tile-number">01</span>
+                                <span class="tile-name">BREACH</span>
+                                <span class="tile-role">TACTICAL</span>
+                            </button>
+                            <button class="selector-tile interactive-element" role="tab" aria-selected="false" aria-controls="mode-details-panel" data-mode-id="payload">
+                                <span class="tile-number">02</span>
+                                <span class="tile-name">PAYLOAD</span>
+                                <span class="tile-role">OBJECTIVE</span>
+                            </button>
+                            <button class="selector-tile interactive-element" role="tab" aria-selected="false" aria-controls="mode-details-panel" data-mode-id="dominion">
+                                <span class="tile-number">03</span>
+                                <span class="tile-name">DOMINION</span>
+                                <span class="tile-role">TERRITORY</span>
+                            </button>
+                            <button class="selector-tile interactive-element" role="tab" aria-selected="false" aria-controls="mode-details-panel" data-mode-id="elimination">
+                                <span class="tile-number">04</span>
+                                <span class="tile-name">ELIM</span>
+                                <span class="tile-role">SURVIVAL</span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="hero-media-card">
-                        <img src="https://images.unsplash.com/photo-1486572788966-cfd3df1f5b42?q=80&w=1000&auto=format&fit=crop" alt="Objective defense in cyber arena" loading="lazy" decoding="async">
-                        <span>Control Protocol</span>
+
+                    <!-- Right Display Terminal Panel -->
+                    <div class="mode-briefing-panel" id="mode-details-panel" role="tabpanel" aria-live="polite">
+                        <!-- Dynamic content loaded via JS -->
+                        <div class="terminal-loader">INITIALIZING COMPILER...</div>
                     </div>
-                    <div class="hero-media-card">
-                        <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?q=80&w=1000&auto=format&fit=crop" alt="Ranked team coordination setup" loading="lazy" decoding="async">
-                        <span>Ranked Ladder</span>
-                    </div>
+
                 </div>
             </div>
         </section>
 
+        <!-- Dynamic Game Loop Journey Section -->
         <section class="section section-dark">
             <div class="container">
                 <div class="section-header">
-                    <div class="section-label"><span class="label-dot"></span><span>Mode Rotation</span></div>
-                    <h2 class="section-title">Core Queue Types</h2>
+                    <div class="section-label">
+                        <span class="label-dot"></span>
+                        <span>MATCH TIMELINE // PROGRESSION</span>
+                    </div>
+                    <h2 class="section-title">THE ENGAGEMENT <span class="text-gradient">CYCLE</span></h2>
+                    <p class="section-subtitle">A precise breakdown of chronological round steps. From tactical planning to final resolution metrics.</p>
                 </div>
-                <div class="neo-panel-grid">
-                    <article class="neo-panel">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop" alt="Round-based tactical match">
-                        <div class="neo-panel-body">
-                            <h3 class="neo-panel-title">Tactical Breach</h3>
-                            <p>Best-of-24 sideswap format with hard economy swings and ability drafts each half.</p>
-                            <div class="chip-list"><span class="chip">5v5</span><span class="chip">Economy</span><span class="chip">Ranked</span></div>
-                        </div>
-                    </article>
-                    <article class="neo-panel">
-                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop" alt="Objective escort game mode">
-                        <div class="neo-panel-body">
-                            <h3 class="neo-panel-title">Payload Run</h3>
-                            <p>Asymmetrical offense versus defense where route control and tempo ult usage decide rounds.</p>
-                            <div class="chip-list"><span class="chip">Objective</span><span class="chip">Overtime</span><span class="chip">Squad Play</span></div>
-                        </div>
-                    </article>
-                    <article class="neo-panel">
-                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1200&auto=format&fit=crop" alt="Control point tactical map">
-                        <div class="neo-panel-body">
-                            <h3 class="neo-panel-title">Dominion</h3>
-                            <p>Dual-zone control emphasizing map pressure, flank denial, and coordinated retakes.</p>
-                            <div class="chip-list"><span class="chip">Zones</span><span class="chip">Fast Queue</span><span class="chip">Macro</span></div>
-                        </div>
-                    </article>
-                    <article class="neo-panel">
-                        <img src="https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=1200&auto=format&fit=crop" alt="Elimination final squad scenario">
-                        <div class="neo-panel-body">
-                            <h3 class="neo-panel-title">Last Squad Standing</h3>
-                            <p>Single-life elimination with utility scarcity, clutch-heavy pacing, and elevated stakes.</p>
-                            <div class="chip-list"><span class="chip">Elimination</span><span class="chip">Clutch</span><span class="chip">Tournament</span></div>
-                        </div>
-                    </article>
+                
+                <div class="cycle-timeline-grid">
+                    <div class="cycle-phase active interactive-element" data-phase-index="0">
+                        <div class="phase-badge">PHASE 01</div>
+                        <h3 class="phase-title">PREPARATION</h3>
+                        <p class="phase-desc">Loadout budgeting, class utility configuration, and team strategy planning.</p>
+                    </div>
+                    <div class="cycle-phase interactive-element" data-phase-index="1">
+                        <div class="phase-badge">PHASE 02</div>
+                        <h3 class="phase-title">CONTESTING</h3>
+                        <p class="phase-desc">Mid-round lane control, utility baiting, and diagnostic radar mapping.</p>
+                    </div>
+                    <div class="cycle-phase interactive-element" data-phase-index="2">
+                        <div class="phase-badge">PHASE 03</div>
+                        <h3 class="phase-title">COMMITMENT</h3>
+                        <p class="phase-desc">Coordinated execution, breach point isolation, and utility sweeps.</p>
+                    </div>
+                    <div class="cycle-phase interactive-element" data-phase-index="3">
+                        <div class="phase-badge">PHASE 04</div>
+                        <h3 class="phase-title">RESOLUTION</h3>
+                        <p class="phase-desc">Retake deployment, post-plant spacing setups, and budget carryover carry.</p>
+                    </div>
+                </div>
+                
+                <div class="cycle-display-terminal" id="cycle-details-terminal" aria-live="polite">
+                    <!-- Dynamic details loaded via JS -->
                 </div>
             </div>
         </section>
 
+        <!-- Ranked Telemetry Progression Ladder Section -->
         <section class="section">
             <div class="container">
                 <div class="section-header">
-                    <div class="section-label"><span class="label-dot"></span><span>Round Framework</span></div>
-                    <h2 class="section-title">How Competitive Rounds Flow</h2>
+                    <div class="section-label">
+                        <span class="label-dot"></span>
+                        <span>RANKED SYSTEM // RATINGS</span>
+                    </div>
+                    <h2 class="section-title">COMPETITIVE <span class="text-gradient">LADDERS</span></h2>
+                    <p class="section-subtitle">Seven regional tiers terminating at the Radiant global leaderboard array. Matches enforce strict MMR limits.</p>
                 </div>
-                <div class="milestone-grid">
-                    <article class="milestone"><h4>Phase 01</h4><p>Loadout planning and role declaration based on spawn and map priority.</p></article>
-                    <article class="milestone"><h4>Phase 02</h4><p>Mid-round information battle through utility baits and vision denial.</p></article>
-                    <article class="milestone"><h4>Phase 03</h4><p>Site commit or rotate call with coordinated entry timings.</p></article>
-                    <article class="milestone"><h4>Phase 04</h4><p>Retake discipline, post-plant spacing, and economy carryover prep.</p></article>
+
+                <div class="ranked-ladder-container">
+                    <div class="ladder-tier">
+                        <div class="tier-number">01</div>
+                        <div class="tier-info">
+                            <h3 class="tier-name">IRON</h3>
+                            <p class="tier-desc">Basic competitive parameters. Baseline MMR rating loops.</p>
+                        </div>
+                    </div>
+                    <div class="ladder-tier">
+                        <div class="tier-number">02</div>
+                        <div class="tier-info">
+                            <h3 class="tier-name">BRONZE / SILVER</h3>
+                            <p class="tier-desc">Operational fundamentals. Evaluation of basic utility setups.</p>
+                        </div>
+                    </div>
+                    <div class="ladder-tier">
+                        <div class="tier-number">03</div>
+                        <div class="tier-info">
+                            <h3 class="tier-name">GOLD / PLATINUM</h3>
+                            <p class="tier-desc">Intermediate brackets. Coordinated entry protocols and rotation traps.</p>
+                        </div>
+                    </div>
+                    <div class="ladder-tier">
+                        <div class="tier-number">04</div>
+                        <div class="tier-info">
+                            <h3 class="tier-name">DIAMOND</h3>
+                            <p class="tier-desc">Advanced competitive. Precise timing protocols, site baiting, and meta picks.</p>
+                        </div>
+                    </div>
+                    <div class="ladder-tier active">
+                        <div class="tier-number">05</div>
+                        <div class="tier-info">
+                            <h3 class="tier-name">ASCENDANT</h3>
+                            <p class="tier-desc">Elite queue segments. Direct pathing towards registered esports tournament circuits.</p>
+                        </div>
+                    </div>
+                    <div class="ladder-tier radiant">
+                        <div class="tier-number">06</div>
+                        <div class="tier-info">
+                            <h3 class="tier-name">RADIANT</h3>
+                            <p class="tier-desc">Top 500 global leaderboards. Requires continuous queue validation.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="section">
+        <!-- CTA Redirect -->
+        <section class="section section-dark">
             <div class="container">
                 <div class="cta-banner">
                     <div>
-                        <h3 class="neo-panel-title">Want Build Paths for Every Mode?</h3>
-                        <p>Visit the Operatives and Maps screens to combine role kits with map-specific setups and anti-meta counters.</p>
+                        <h3 class="cta-title">COMBINE ROLES WITH STRATEGY?</h3>
+                        <p class="cta-desc">Examine direct synergy logs, operative loadout capabilities, and map parameters to build clean strategies.</p>
                     </div>
                     <div class="section-cta">
-                        <a href="operatives.html" class="btn btn-primary">View Operatives</a>
-                        <a href="maps.html" class="btn btn-outline">Explore Maps</a>
+                        <a href="operatives.html" class="btn btn-primary interactive-element">DECRYPT_OPERATIVES //</a>
+                        <a href="maps.html" class="btn btn-secondary interactive-element">DECRYPT_MAPS //</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-bottom">
@@ -172,6 +246,26 @@
             </div>
         </div>
     </footer>
+
+    <!-- Trailer Modal -->
+    <div class="modal" id="trailer-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content trailer-modal-content">
+            <button class="modal-close" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                    <span>Trailer Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="js/script.js"></script>
 </body>
