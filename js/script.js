@@ -1,213 +1,275 @@
-/* ==========================================================================
-   NEXUS: CONFLICT - AAA INTERACTION DESIGN & OPTIMIZED ANIMATION LOOPS
-   ========================================================================== */
+const rq = (id) => document.getElementById(id);
+const qa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Decoupled animation states
-    let targetScrollY = window.pageYOffset;
-    let currentScrollY = window.pageYOffset;
-    
-    let targetMouseX = 0;
-    let targetMouseY = 0;
-    let currentMouseX = 0;
-    let currentMouseY = 0;
-    
-    const cursor = document.getElementById('custom-cursor');
-    const heroBg = document.getElementById('hero-bg');
-    
-    // Track mouse coordinates dynamically
-    document.addEventListener('mousemove', (e) => {
-        targetMouseX = e.clientX;
-        targetMouseY = e.clientY;
-    }, { passive: true });
+const motionOk = () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Track scroll coordinates passively without triggering main layout recalcs
-    window.addEventListener('scroll', () => {
-        targetScrollY = window.pageYOffset;
-    }, { passive: true });
+let targetScrollY = window.pageYOffset;
+let currentScrollY = window.pageYOffset;
+let targetMouseX = 0;
+let targetMouseY = 0;
+let currentMouseX = 0;
+let currentMouseY = 0;
 
-    // 2. High performance animation frame update loop
-    function animate() {
-        // Linear interpolation (lerp) coefficients
-        const cursorEase = 0.15;
-        const scrollEase = 0.08;
+const heroBg = rq('hero-bg');
 
-        // Lerp custom cursor coordinates
-        currentMouseX += (targetMouseX - currentMouseX) * cursorEase;
-        currentMouseY += (targetMouseY - currentMouseY) * cursorEase;
+if (motionOk()) {
+  window.addEventListener(
+    'scroll',
+    () => {
+      targetScrollY = window.pageYOffset;
+    },
+    { passive: true },
+  );
+}
 
-        if (cursor) {
-            // Apply coordinates via GPU-accelerated translate3d
-            cursor.style.transform = `translate3d(${currentMouseX}px, ${currentMouseY}px, 0) translate(-50%, -50%)`;
-        }
-
-        // Lerp scroll coordinates for background parallax
-        currentScrollY += (targetScrollY - currentScrollY) * scrollEase;
-
-        if (heroBg) {
-            // Update parallax offset smoothly using translate3d
-            heroBg.style.transform = `scale(1.05) translate3d(0, ${currentScrollY * 0.3}px, 0)`;
-        }
-
-        requestAnimationFrame(animate);
+function animate() {
+  if (motionOk()) {
+    currentScrollY += (targetScrollY - currentScrollY) * 0.08;
+    if (heroBg) {
+      heroBg.style.transform = `scale(1.05) translate3d(0, ${currentScrollY * 0.3}px, 0)`;
     }
-    
-    // Start animation loop
-    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
 
-    // 3. Hover expansions for clickable elements
-    const interactiveElements = document.querySelectorAll('a, button, .map-card, input');
-    interactiveElements.forEach((el) => {
-        el.addEventListener('mouseenter', () => {
-            if (cursor) cursor.classList.add('hover');
-        });
-        el.addEventListener('mouseleave', () => {
-            if (cursor) cursor.classList.remove('hover');
-        });
+const progressBar = rq('scroll-progress');
+if (progressBar) {
+  window.addEventListener(
+    'scroll',
+    () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (total > 0) progressBar.style.width = `${(window.pageYOffset / total) * 100}%`;
+    },
+    { passive: true },
+  );
+}
+
+const navbar = rq('navbar');
+if (navbar) {
+  window.addEventListener(
+    'scroll',
+    () => {
+      const scrolled = window.pageYOffset > 50;
+      navbar.style.background = scrolled ? 'rgba(10, 10, 12, 0.98)' : 'rgba(10, 10, 12, 0.9)';
+      navbar.style.height = scrolled ? '64px' : 'var(--nav-height)';
+    },
+    { passive: true },
+  );
+}
+
+const TABS_KEY = { ArrowDown: 1, ArrowUp: -1, Home: 'home', End: 'end' };
+
+function initTabs(container) {
+  const tabs = qa('[role="tab"]', container);
+  const panels = qa('[role="tabpanel"]', container);
+  if (!tabs.length) return;
+
+  const activate = (tab) => {
+    tabs.forEach((t) => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
     });
+    panels.forEach((p) => p.classList.remove('active'));
 
-    // 4. Scroll Progress Bar
-    const progressBar = document.getElementById('scroll-progress');
-    if (progressBar) {
-        window.addEventListener('scroll', () => {
-            const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-            if (totalScroll > 0) {
-                const percentage = (window.pageYOffset / totalScroll) * 100;
-                progressBar.style.width = `${percentage}%`;
-            }
-        }, { passive: true });
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
+    const panel = rq(tab.getAttribute('aria-controls'));
+    if (panel) panel.classList.add('active');
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => activate(tab));
+    tab.addEventListener('keydown', (e) => {
+      const key = TABS_KEY[e.key];
+      if (key === undefined) return;
+      e.preventDefault();
+
+      let next;
+      if (key === 'home') next = 0;
+      else if (key === 'end') next = tabs.length - 1;
+      else next = (i + key + tabs.length) % tabs.length;
+
+      tabs[next].focus();
+      activate(tabs[next]);
+    });
+  });
+}
+
+initTabs(document.querySelector('.operative-interface'));
+
+const focusableEls =
+  'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])';
+
+function trapFocus(container) {
+  const els = qa(focusableEls, container);
+  if (!els.length) return () => {};
+  const first = els[0];
+  const last = els[els.length - 1];
+
+  const handler = (e) => {
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+  container.addEventListener('keydown', handler);
+  first.focus();
+  return () => container.removeEventListener('keydown', handler);
+}
+
+const modal = rq('signal-modal');
+const trailerBtn = rq('trailer-btn');
+const modalClose = rq('modal-close-btn');
+const modalBackdrop = rq('modal-backdrop');
+let releaseFocus = null;
+
+if (modal && trailerBtn) {
+  const openModal = () => {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', escHandler);
+    releaseFocus = trapFocus(modal);
+  };
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', escHandler);
+    if (releaseFocus) {
+      releaseFocus();
+      releaseFocus = null;
+    }
+    trailerBtn.focus();
+  };
+
+  const escHandler = (e) => {
+    if (e.key === 'Escape') closeModal();
+  };
+
+  trailerBtn.addEventListener('click', openModal);
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+}
+
+const recruitBtn = rq('recruit-btn');
+const terminusSection = rq('terminus');
+if (recruitBtn && terminusSection) {
+  recruitBtn.addEventListener('click', () => {
+    terminusSection.scrollIntoView({ behavior: motionOk() ? 'smooth' : 'auto' });
+  });
+}
+
+const recruitForm = rq('recruit-form');
+if (recruitForm) {
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  recruitForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = rq('contractor-email');
+    const errorEl = recruitForm.querySelector('.form-error');
+
+    if (!input) return;
+
+    if (!input.value || !emailRe.test(input.value)) {
+      input.classList.add('error');
+      if (errorEl) errorEl.textContent = 'Enter a valid email address';
+      return;
     }
 
-    // 5. Operative Tab Switcher
-    const opTabs = document.querySelectorAll('.op-tab');
-    const opViewers = document.querySelectorAll('.operative-viewer');
+    input.classList.remove('error');
+    if (errorEl) errorEl.textContent = '';
 
-    if (opTabs.length > 0 && opViewers.length > 0) {
-        opTabs.forEach((tab) => {
-            tab.addEventListener('click', () => {
-                const targetOp = tab.getAttribute('data-op');
+    const btn = recruitForm.querySelector('.btn');
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = 'Signal Sent //';
+      btn.style.opacity = '0.6';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.opacity = '1';
+        btn.disabled = false;
+        input.value = '';
+      }, 2500);
+    }
+  });
 
-                opTabs.forEach(t => t.classList.remove('active'));
-                opViewers.forEach(v => v.classList.remove('active'));
+  const emailInput = rq('contractor-email');
+  if (emailInput) {
+    emailInput.addEventListener('input', () => {
+      emailInput.classList.remove('error');
+      const errorEl = recruitForm.querySelector('.form-error');
+      if (errorEl) errorEl.textContent = '';
+    });
+  }
+}
 
-                tab.classList.add('active');
-                const targetViewer = document.getElementById(`op-${targetOp}`);
-                if (targetViewer) {
-                    targetViewer.classList.add('active');
-                }
-            });
+const mobileToggle = rq('mobile-toggle');
+const mobileMenu = rq('mobile-menu');
+const mobileClose = rq('mobile-close');
+const mobileOverlay = rq('mobile-menu-overlay');
+
+if (mobileToggle && mobileMenu) {
+  let releaseMenuFocus = null;
+
+  const mobEscHandler = (e) => {
+    if (e.key === 'Escape') closeMenu();
+  };
+
+  const openMenu = () => {
+    mobileMenu.classList.add('active');
+    if (mobileOverlay) mobileOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', mobEscHandler);
+    releaseMenuFocus = trapFocus(mobileMenu);
+  };
+
+  const closeMenu = () => {
+    mobileMenu.classList.remove('active');
+    if (mobileOverlay) mobileOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', mobEscHandler);
+    if (releaseMenuFocus) {
+      releaseMenuFocus();
+      releaseMenuFocus = null;
+    }
+    mobileToggle.focus();
+  };
+
+  mobileToggle.addEventListener('click', openMenu);
+  if (mobileClose) mobileClose.addEventListener('click', closeMenu);
+  if (mobileOverlay) mobileOverlay.addEventListener('click', closeMenu);
+
+  mobileMenu.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+}
+
+if (motionOk()) {
+  const revealEls = qa('.dossier-card, .mode-card, .stage-card');
+  if (revealEls.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
         });
-    }
+      },
+      { threshold: 0.1 },
+    );
 
-    // 6. Game Mode Accordion
-    const accItems = document.querySelectorAll('.mode-acc-item');
-    if (accItems.length > 0) {
-        accItems.forEach((item) => {
-            const trigger = item.querySelector('.mode-acc-trigger');
-            if (trigger) {
-                trigger.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
-                    accItems.forEach(i => i.classList.remove('active'));
-                    if (!isActive) {
-                        item.classList.add('active');
-                    }
-                });
-            }
-        });
-    }
-
-    // 7. Navigation Scroll Blur Effects
-    const navbar = document.getElementById('navbar');
-    if (navbar) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 50) {
-                navbar.style.background = 'rgba(7, 7, 8, 0.98)';
-                navbar.style.height = '70px';
-            } else {
-                navbar.style.background = 'rgba(7, 7, 8, 0.9)';
-                navbar.style.height = '80px';
-            }
-        }, { passive: true });
-    }
-
-    // 8. Video Trailer Modal Controls
-    const trailerBtn = document.getElementById('trailer-btn');
-    const trailerModal = document.getElementById('trailer-modal');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-    const modalBackdrop = document.getElementById('modal-backdrop');
-    const iframe = document.getElementById('trailer-video');
-
-    if (trailerBtn && trailerModal) {
-        const openModal = () => {
-            trailerModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        const closeModal = () => {
-            trailerModal.classList.remove('active');
-            document.body.style.overflow = '';
-            
-            if (iframe) {
-                const tempSrc = iframe.src;
-                iframe.src = '';
-                iframe.src = tempSrc;
-            }
-        };
-
-        trailerBtn.addEventListener('click', openModal);
-        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-        if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
-    }
-
-    // Infiltration CTA click scroll
-    const recruitBtn = document.getElementById('recruit-btn');
-    const terminusSection = document.getElementById('terminus');
-    if (recruitBtn && terminusSection) {
-        recruitBtn.addEventListener('click', () => {
-            terminusSection.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
-
-    // 9. Mobile Menu Navigation
-    const mobileToggle = document.getElementById('mobile-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileClose = document.getElementById('mobile-close');
-    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-
-    if (mobileToggle && mobileMenu) {
-        const openMenu = () => {
-            mobileMenu.classList.add('active');
-            if (mobileMenuOverlay) mobileMenuOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        const closeMenu = () => {
-            mobileMenu.classList.remove('active');
-            if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        };
-
-        mobileToggle.addEventListener('click', openMenu);
-        if (mobileClose) mobileClose.addEventListener('click', closeMenu);
-        if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', closeMenu);
-    }
-
-    // 10. Telemetry Dynamic Glitch Numbers
-    const telemetryElements = document.querySelectorAll('.telemetry');
-    if (telemetryElements.length > 0) {
-        setInterval(() => {
-            telemetryElements.forEach(el => {
-                if (Math.random() > 0.85) {
-                    const originalText = el.textContent;
-                    if (originalText.includes('LATENCY')) {
-                        const newLatency = Math.floor(Math.random() * 20) + 5;
-                        el.textContent = `NET_BREACH_INITIALIZED // LATENCY: ${newLatency}MS`;
-                        setTimeout(() => {
-                            el.textContent = originalText;
-                        }, 150);
-                    }
-                }
-            });
-        }, 3000);
-    }
-});
+    revealEls.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  }
+}

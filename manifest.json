@@ -1,12 +1,12 @@
 {
-  "name": "NEXUS: CONFLICT",
-  "short_name": "NEXUS",
-  "description": "Competitive tactical shooter coming late 2026.",
+  "name": "SALVAGE",
+  "short_name": "SALVAGE",
+  "description": "Orbital extraction shooter. Only the team with the payload leaves.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "background_color": "#060607",
+  "theme_color": "#d4a017",
   "icons": [
     {
       "src": "assets/icons/favicon.svg",

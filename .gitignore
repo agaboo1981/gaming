@@ -5,6 +5,12 @@ node_modules/
 dist/
 .vite/
 
+# Generated images (copied to public/assets/images/)
+vibe_images/
+
+# Test results
+test-results/
+
 # Vercel
 .vercel/
 

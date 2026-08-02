@@ -6,23 +6,14 @@ const DEFAULT_SITE_URL = 'https://gaming-ecru-phi.vercel.app';
 
 const normalizeSiteUrl = (value) => {
   const trimmed = String(value || '').trim();
-  if (!trimmed) {
-    return DEFAULT_SITE_URL;
-  }
-
+  if (!trimmed) return DEFAULT_SITE_URL;
   return trimmed.replace(/\/+$/, '');
 };
 
 const siteUrl = normalizeSiteUrl(process.env.SITE_URL);
 const lastmod = (process.env.SITEMAP_LASTMOD || new Date().toISOString().slice(0, 10)).trim();
 
-const routes = [
-  { path: '/', changefreq: 'weekly', priority: '1.0' },
-  { path: '/modes.html', changefreq: 'weekly', priority: '0.9' },
-  { path: '/operatives.html', changefreq: 'weekly', priority: '0.9' },
-  { path: '/maps.html', changefreq: 'weekly', priority: '0.9' },
-  { path: '/esports.html', changefreq: 'weekly', priority: '0.9' }
-];
+const routes = [{ path: '/', changefreq: 'weekly', priority: '1.0' }];
 
 const sitemapXml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
@@ -34,20 +25,16 @@ const sitemapXml = [
       `    <lastmod>${lastmod}</lastmod>`,
       `    <changefreq>${changefreq}</changefreq>`,
       `    <priority>${priority}</priority>`,
-      '  </url>'
+      '  </url>',
     ].join('\n');
   }),
   '</urlset>',
-  ''
+  '',
 ].join('\n');
 
-const robotsTxt = [
-  'User-agent: *',
-  'Allow: /',
-  '',
-  `Sitemap: ${siteUrl}/sitemap.xml`,
-  ''
-].join('\n');
+const robotsTxt = ['User-agent: *', 'Allow: /', '', `Sitemap: ${siteUrl}/sitemap.xml`, ''].join(
+  '\n',
+);
 
 fs.writeFileSync(path.join(rootDir, 'sitemap.xml'), sitemapXml, 'utf8');
 fs.writeFileSync(path.join(rootDir, 'robots.txt'), robotsTxt, 'utf8');
