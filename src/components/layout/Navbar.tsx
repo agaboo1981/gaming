@@ -1,35 +1,48 @@
-import { useEffect, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn, ease } from "../../lib/utils";
-import { LiveDot } from "../ui/LiveDot";
+import { useEffect, useState, useCallback } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { cn, ease } from '../../lib/utils';
+import { LiveDot } from '../ui/LiveDot';
 
 const links = [
-  { href: "#fiction", label: "Fiction" },
-  { href: "#loop", label: "Protocol" },
-  { href: "#operatives", label: "Operatives" },
-  { href: "#sectors", label: "Sectors" },
+  { href: '#fiction', label: 'Fiction' },
+  { href: '#loop', label: 'Protocol' },
+  { href: '#operatives', label: 'Operatives' },
+  { href: '#sectors', label: 'Sectors' },
 ];
 
 export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 60);
+
+      // Active-section tracking: last section whose top passed the probe line.
+      const probe = window.scrollY + window.innerHeight * 0.4;
+      let current: string | null = null;
+      for (const l of links) {
+        const el = document.getElementById(l.href.slice(1));
+        if (el && el.offsetTop <= probe) current = l.href.slice(1);
+      }
+      setActive(current);
+    };
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const close = useCallback(() => {
     setOpen(false);
-    document.body.style.overflow = "";
+    document.body.style.overflow = '';
   }, []);
 
   const toggle = () => {
     setOpen((v) => {
       const next = !v;
-      document.body.style.overflow = next ? "hidden" : "";
+      document.body.style.overflow = next ? 'hidden' : '';
       return next;
     });
   };
@@ -37,73 +50,87 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         close();
-        document.getElementById("mobile-toggle")?.focus();
+        document.getElementById('mobile-toggle')?.focus();
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [open, close]);
 
   return (
     <>
-      <header
-        className={cn(
-          "fixed top-0 inset-x-0 z-50 transition-all duration-500",
-          scrolled
-            ? "bg-void/90 backdrop-blur-md border-b border-white/[0.06] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.9)]"
-            : "bg-transparent border-b border-transparent"
-        )}
+      <motion.header
+        initial={reduced ? false : { opacity: 0, y: -18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: ease.outExpo }}
+        className="fixed top-4 inset-x-0 z-50"
       >
-        <div
-          className={cn(
-            "absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent transition-opacity duration-500",
-            scrolled ? "opacity-70" : "opacity-0"
-          )}
-          aria-hidden
-        />
         <nav
-          className="container-wide h-16 px-[clamp(1.25rem,4vw,4.5rem)] flex items-center justify-between"
+          className="container-wide px-[clamp(1.25rem,4vw,4.5rem)] flex items-center justify-between gap-4"
           aria-label="Primary"
         >
-          <a href="#hero" className="group flex items-center gap-2">
-            <span className="font-display text-[1.4rem] tracking-[0.04em] text-white group-hover:text-accent transition-colors duration-300">
-              SALVAGE
+          {/* Brand — floats free of the pill */}
+          <div className="flex items-center gap-5 min-w-0">
+            <a href="#hero" className="group flex items-center gap-2">
+              <span className="font-display text-[1.4rem] tracking-[0.04em] text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] group-hover:text-accent transition-colors duration-300">
+                SALVAGE
+              </span>
+              <span className="hidden sm:inline-block w-6 h-[3px] hazard-stripe-thin opacity-60" />
+            </a>
+
+            <span className="hidden xl:flex items-center gap-2 text-micro text-cold/60">
+              <LiveDot />
+              Servers Online
             </span>
-            <span className="hidden sm:inline-block w-6 h-[3px] hazard-stripe-thin opacity-60" />
-          </a>
+          </div>
 
-          <span className="hidden lg:flex items-center gap-2 font-mono text-[0.5625rem] font-medium tracking-[0.22em] uppercase text-cold/60">
-            <LiveDot />
-            Servers Online
-          </span>
+          {/* Floating glass pill — links + integrated CTA */}
+          <div
+            className={cn(
+              'hidden md:flex items-center gap-1 rounded-full p-1.5 glass-pill transition-colors duration-500',
+              scrolled && 'glass-pill-solid',
+            )}
+          >
+            <ul className="nav-links flex items-center gap-0.5">
+              {links.map((l) => {
+                const isActive = active === l.href.slice(1);
+                return (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      className={cn(
+                        'relative rounded-full px-4 py-2 font-mono text-[0.625rem] font-medium uppercase tracking-[0.2em] transition-all duration-300',
+                        isActive
+                          ? 'text-accent bg-accent/10'
+                          : 'text-fog hover:text-white hover:bg-white/[0.06]',
+                      )}
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
 
-          <ul className="nav-links hidden md:flex items-center gap-8 font-mono text-[0.625rem] font-medium uppercase tracking-[0.2em] text-cold">
-            {links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="relative py-2 hover:text-white transition-colors duration-300 after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+            <span className="mx-2 h-5 w-px bg-white/10" aria-hidden />
 
-          <div className="hidden md:block">
             <button
               onClick={onDeploy}
-              className="btn-press font-mono text-[0.625rem] font-semibold uppercase tracking-[0.18em] px-6 py-2.5 bg-accent text-void clip-notch-sm hover:bg-accent-hot"
+              className="btn-press rounded-full font-mono text-[0.625rem] font-semibold uppercase tracking-[0.18em] px-5 py-2.5 bg-accent text-void hover:bg-accent-hot hover:shadow-[0_0_24px_color-mix(in_srgb,var(--color-accent)_30%,transparent)]"
             >
               Request Clearance
             </button>
           </div>
 
+          {/* Mobile menu toggle — compact glass circle */}
           <button
             id="mobile-toggle"
-            className="md:hidden relative size-10 flex items-center justify-center text-fog hover:text-white transition-colors"
+            className={cn(
+              'md:hidden relative size-11 rounded-full flex items-center justify-center glass-pill text-fog hover:text-white transition-colors',
+              scrolled && 'glass-pill-solid',
+            )}
             onClick={toggle}
             aria-expanded={open}
             aria-label="Toggle navigation menu"
@@ -112,32 +139,32 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
             <div className="flex flex-col gap-1.5 w-5">
               <span
                 className={cn(
-                  "h-[2px] w-full bg-current transition-all duration-300 origin-center",
-                  open && "translate-y-[7px] rotate-45"
+                  'h-[2px] w-full bg-current transition-all duration-300 origin-center',
+                  open && 'translate-y-[7px] rotate-45',
                 )}
               />
               <span
                 className={cn(
-                  "h-[2px] w-full bg-current transition-all duration-300",
-                  open && "opacity-0 scale-x-0"
+                  'h-[2px] w-full bg-current transition-all duration-300',
+                  open && 'opacity-0 scale-x-0',
                 )}
               />
               <span
                 className={cn(
-                  "h-[2px] w-full bg-current transition-all duration-300 origin-center",
-                  open && "-translate-y-[7px] -rotate-45"
+                  'h-[2px] w-full bg-current transition-all duration-300 origin-center',
+                  open && '-translate-y-[7px] -rotate-45',
                 )}
               />
             </div>
           </button>
         </nav>
-      </header>
+      </motion.header>
 
       <AnimatePresence>
         {open && (
           <>
             <motion.div
-              className="fixed inset-0 z-40 bg-void/80 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-40 bg-void/70 backdrop-blur-sm md:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -145,10 +172,10 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
             />
             <motion.div
               id="mobile-menu"
-              className="fixed top-0 right-0 z-50 h-full w-[min(100%,320px)] bg-steel border-l border-white/[0.08] md:hidden flex flex-col"
-              initial={{ x: "100%" }}
+              className="active fixed top-0 right-0 z-50 h-full w-[min(100%,320px)] bg-void/85 backdrop-blur-2xl border-l border-white/10 md:hidden flex flex-col"
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: "100%" }}
+              exit={{ x: '100%' }}
               transition={{ duration: 0.4, ease: ease.outExpo }}
             >
               <div className="flex items-center justify-between h-16 px-6 border-b border-white/[0.06]">
@@ -165,7 +192,12 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
                   <motion.a
                     key={l.href}
                     href={l.href}
-                    className="font-display text-3xl text-white/90 hover:text-accent py-4 border-b border-white/[0.05] transition-colors"
+                    className={cn(
+                      'font-display text-3xl py-4 border-b border-white/[0.05] transition-colors',
+                      active === l.href.slice(1)
+                        ? 'text-accent'
+                        : 'text-white/90 hover:text-accent',
+                    )}
                     onClick={close}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}

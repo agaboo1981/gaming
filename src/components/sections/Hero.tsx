@@ -1,10 +1,10 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Play } from "lucide-react";
-import { ease } from "../../lib/utils";
-import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { LiveDot } from "../ui/LiveDot";
-import { StationScene } from "../three/StationScene";
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Play } from 'lucide-react';
+import { ease } from '../../lib/utils';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { LiveDot } from '../ui/LiveDot';
+import { StationScene } from '../three/StationScene';
 
 interface HeroProps {
   onDeploy: () => void;
@@ -13,10 +13,10 @@ interface HeroProps {
 
 export function Hero({ onDeploy, onTrailer }: HeroProps) {
   const ref = useRef<HTMLElement>(null);
-  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end start"],
+    offset: ['start start', 'end start'],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
@@ -36,13 +36,13 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
               src="/assets/images/hero.png"
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: "brightness(0.5) contrast(1.1) saturate(0.85)" }}
+              style={{ filter: 'brightness(0.5) contrast(1.1) saturate(0.85)' }}
             />
           </motion.div>
         ) : (
           <StationScene scroll={scrollYProgress} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/30 to-void/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/25 to-void/45" />
         <div className="absolute inset-0 bg-gradient-to-r from-void/70 via-transparent to-void/40" />
       </motion.div>
 
@@ -65,16 +65,19 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
           transition={{ duration: 0.8, delay: 0.2, ease: ease.outExpo }}
           className="flex items-center gap-3 mb-6"
         >
-          <span className="inline-block w-8 h-[3px] hazard-stripe-thin" />
-          <span className="text-micro text-accent">Orbital Extraction Protocol</span>
+          <span className="inline-flex items-center gap-2.5 rounded-full glass-pill px-4 py-2">
+            <span className="inline-block w-5 h-[3px] hazard-stripe-thin" aria-hidden />
+            <span className="text-micro text-accent">Orbital Extraction Protocol</span>
+            <LiveDot />
+          </span>
         </motion.div>
 
         <div className="overflow-hidden">
           <motion.h1
-            initial={{ y: "105%" }}
+            initial={{ y: '105%' }}
             animate={{ y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: ease.outExpo }}
-            className="text-display text-[clamp(4.5rem,16vw,13rem)] text-white leading-[0.88]"
+            className="text-display text-[clamp(4.5rem,16vw,13rem)] text-white leading-[0.88] [text-shadow:0_4px_40px_rgba(0,0,0,0.6)]"
           >
             SALVAGE
           </motion.h1>
@@ -84,7 +87,7 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: ease.outExpo }}
-          className="mt-6 max-w-md text-lg md:text-xl font-light text-fog leading-relaxed"
+          className="mt-6 max-w-md text-lg md:text-xl font-light text-fog leading-relaxed [text-shadow:0_2px_18px_rgba(0,0,0,0.75)]"
         >
           Only the team with the payload leaves the station.
           <span className="text-bone"> Everyone else becomes salvage.</span>
@@ -114,7 +117,7 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
           </button>
           <a
             href="#fiction"
-            className="btn-press font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.18em] px-8 py-4 border border-white/[0.12] text-bone clip-notch hover:border-accent/50 hover:text-white"
+            className="btn-press font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.18em] px-8 py-4 border border-white/[0.12] bg-white/[0.03] text-bone clip-notch hover:border-accent/50 hover:bg-white/[0.06] hover:text-white transition-colors"
           >
             Read the Brief
           </a>
