@@ -15,7 +15,7 @@ const TICKER_LINES = [
 export function Ticker() {
   return (
     <div
-      className="relative z-10 border-y border-white/[0.06] bg-steel/50 backdrop-blur-sm overflow-hidden"
+      className="relative z-10 border-y border-bone/[0.06] bg-steel/50 backdrop-blur-sm overflow-hidden"
       aria-hidden
     >
       <div className="ticker-track">

@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Play } from 'lucide-react';
 import { ease } from '../../lib/utils';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { LiveDot } from '../ui/LiveDot';
 import { StationScene } from '../three/StationScene';
 
 interface HeroProps {
@@ -36,14 +36,14 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
               src="/assets/images/hero.png"
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: 'brightness(0.5) contrast(1.1) saturate(0.85)' }}
+               style={{ filter: 'brightness(0.8) contrast(1.1) saturate(0.85)' }}
             />
           </motion.div>
         ) : (
           <StationScene scroll={scrollYProgress} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-void via-void/25 to-void/45" />
-        <div className="absolute inset-0 bg-gradient-to-r from-void/70 via-transparent to-void/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-void/45 via-void/10 to-void/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-void/20 via-transparent to-transparent" />
       </motion.div>
 
       {/* HUD frame overlay */}
@@ -52,32 +52,16 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
         <span className="absolute top-20 right-4 md:right-[clamp(1.25rem,4vw,4.5rem)] size-7 border-t-2 border-r-2 border-accent/40" />
         <span className="absolute bottom-5 left-4 md:left-[clamp(1.25rem,4vw,4.5rem)] size-7 border-b-2 border-l-2 border-accent/40" />
         <span className="absolute bottom-5 right-4 md:right-[clamp(1.25rem,4vw,4.5rem)] size-7 border-b-2 border-r-2 border-accent/40" />
-        <span className="side-label hidden lg:block absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[0.5625rem] font-medium tracking-[0.32em] uppercase text-cold/35">
-          SALVAGE — ORBITAL EXTRACTION — 2084
-        </span>
       </div>
 
       {/* Content — anchored bottom-left */}
       <div className="relative z-10 container-wide w-full px-[clamp(1.25rem,4vw,4.5rem)] pb-14 md:pb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: ease.outExpo }}
-          className="flex items-center gap-3 mb-6"
-        >
-          <span className="inline-flex items-center gap-2.5 rounded-full glass-pill px-4 py-2">
-            <span className="inline-block w-5 h-[3px] hazard-stripe-thin" aria-hidden />
-            <span className="text-micro text-accent">Orbital Extraction Protocol</span>
-            <LiveDot />
-          </span>
-        </motion.div>
-
         <div className="overflow-hidden">
           <motion.h1
             initial={{ y: '105%' }}
             animate={{ y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: ease.outExpo }}
-            className="text-display text-[clamp(4.5rem,16vw,13rem)] text-white leading-[0.88] [text-shadow:0_4px_40px_rgba(0,0,0,0.6)]"
+            className="text-display text-[clamp(4.5rem,16vw,13rem)] text-bone leading-[0.88] [text-shadow:0_4px_40px_rgba(0,0,0,0.6)]"
           >
             SALVAGE
           </motion.h1>
@@ -87,10 +71,10 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: ease.outExpo }}
-          className="mt-6 max-w-md text-lg md:text-xl font-light text-fog leading-relaxed [text-shadow:0_2px_18px_rgba(0,0,0,0.75)]"
+          className="mt-6 max-w-md text-lg md:text-xl font-light text-ink leading-relaxed [text-shadow:0_1px_14px_rgba(255,255,255,0.8)]"
         >
           Only the team with the payload leaves the station.
-          <span className="text-bone"> Everyone else becomes salvage.</span>
+          <span className="text-ink"> Everyone else becomes salvage.</span>
         </motion.p>
 
         <motion.div
@@ -115,30 +99,12 @@ export function Hero({ onDeploy, onTrailer }: HeroProps) {
             </span>
             Field Recording
           </button>
-          <a
-            href="#fiction"
-            className="btn-press font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.18em] px-8 py-4 border border-white/[0.12] bg-white/[0.03] text-bone clip-notch hover:border-accent/50 hover:bg-white/[0.06] hover:text-white transition-colors"
+          <Link
+            to="/fiction"
+            className="btn-press font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.18em] px-8 py-4 border border-bone/[0.12] bg-bone/[0.03] text-bone clip-notch hover:border-accent/50 hover:bg-bone/[0.06] hover:text-bone transition-colors"
           >
             Read the Brief
-          </a>
-        </motion.div>
-
-        {/* Bottom meta */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
-          className="mt-14 flex items-center justify-between gap-4 text-micro text-cold/70"
-        >
-          <span className="flex items-center gap-2">
-            <LiveDot />
-            Atlas Corp. // Clearance Level 3
-          </span>
-          <span className="hidden md:flex items-center gap-2 text-accent/70">
-            Live Feed
-            <span className="inline-block w-px h-3 bg-accent/30" />
-            <span className="text-cold/60">Scroll to descend</span>
-          </span>
+          </Link>
         </motion.div>
       </div>
     </section>

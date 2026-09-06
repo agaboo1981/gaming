@@ -13,7 +13,18 @@ const normalizeSiteUrl = (value) => {
 const siteUrl = normalizeSiteUrl(process.env.SITE_URL);
 const lastmod = (process.env.SITEMAP_LASTMOD || new Date().toISOString().slice(0, 10)).trim();
 
-const routes = [{ path: '/', changefreq: 'weekly', priority: '1.0' }];
+const routes = [
+  { path: '/', changefreq: 'weekly', priority: '1.0' },
+  { path: '/deploy', changefreq: 'weekly', priority: '0.9' },
+  { path: '/fiction', changefreq: 'monthly', priority: '0.8' },
+  { path: '/protocol', changefreq: 'monthly', priority: '0.8' },
+  { path: '/operatives', changefreq: 'monthly', priority: '0.8' },
+  { path: '/sectors', changefreq: 'monthly', priority: '0.8' },
+  { path: '/terms', changefreq: 'yearly', priority: '0.3' },
+  { path: '/privacy', changefreq: 'yearly', priority: '0.3' },
+  { path: '/cookies', changefreq: 'yearly', priority: '0.3' },
+  { path: '/eula', changefreq: 'yearly', priority: '0.3' },
+];
 
 const sitemapXml = [
   '<?xml version="1.0" encoding="UTF-8"?>',

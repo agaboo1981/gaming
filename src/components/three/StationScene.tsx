@@ -74,12 +74,12 @@ export function StationScene({ scroll, className }: StationSceneProps) {
         {/* cool ambient + blue key + gold rim */}
         <ambientLight intensity={0.16} color={"#3a4a6a"} />
         <directionalLight position={[-4, 3, 3]} intensity={1.15} color={"#cfe0ff"} />
-        <directionalLight position={[5, -1, -4]} intensity={2.6} color={"#d4a017"} />
-        <pointLight position={[0, 0, 1.2]} intensity={6} color={"#e8b520"} distance={7} />
+        <directionalLight position={[5, -1, -4]} intensity={2.6} color={"#3b82f6"} />
+        <pointLight position={[0, 0, 1.2]} intensity={6} color={"#60a5fa"} distance={7} />
 
         <OrbitalStation />
         <Starfield count={1500} />
-        <fog attach="fog" args={["#07080b", 9, 26]} />
+        <fog attach="fog" args={["#dbeafe", 9, 26]} />
       </Suspense>
     </Canvas>
   );

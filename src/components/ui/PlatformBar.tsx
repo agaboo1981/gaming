@@ -1,11 +1,11 @@
-import { Gamepad2, Globe, Monitor } from "lucide-react";
+import { Gamepad2, Globe, Monitor } from 'lucide-react';
 
 const platforms = [
-  { name: "Steam", note: "Wishlist", icon: Globe },
-  { name: "Epic Games", note: "Wishlist", icon: Globe },
-  { name: "PlayStation 5", note: "TBA", icon: Gamepad2 },
-  { name: "Xbox Series X|S", note: "TBA", icon: Gamepad2 },
-  { name: "PC", note: "Wishlist", icon: Monitor },
+  { name: 'Steam', note: 'Wishlist', icon: Globe },
+  { name: 'Epic Games', note: 'Wishlist', icon: Globe },
+  { name: 'PlayStation 5', note: 'TBA', icon: Gamepad2 },
+  { name: 'Xbox Series X|S', note: 'TBA', icon: Gamepad2 },
+  { name: 'PC', note: 'Wishlist', icon: Monitor },
 ];
 
 /**
@@ -20,15 +20,15 @@ export function PlatformBar() {
         <span className="text-accent">Available On</span>
         <span className="w-6 h-px bg-accent/40" />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-white/[0.08] border border-white/[0.08]">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-bone/[0.08] border border-bone/[0.08]">
         {platforms.map((p) => {
           const Icon = p.icon;
           return (
             <div
               key={p.name}
-              className="group flex items-center justify-between gap-2 min-h-[58px] bg-steel/80 px-4 py-4 hover:bg-steel transition-colors"
+              className="group flex items-center justify-between gap-2 min-h-[58px] bg-void/45 backdrop-blur-md px-4 py-4 hover:bg-void/70 transition-colors"
             >
-              <span className="flex items-center gap-2.5 font-display text-sm text-bone group-hover:text-white transition-colors">
+              <span className="flex items-center gap-2.5 font-display text-sm text-bone group-hover:text-bone transition-colors">
                 <Icon className="size-4 text-cold/60 group-hover:text-accent transition-colors" />
                 {p.name}
               </span>

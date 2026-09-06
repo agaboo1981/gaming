@@ -1,5 +1,5 @@
-import { Play } from "lucide-react";
-import { LiveDot } from "../ui/LiveDot";
+import { Play } from 'lucide-react';
+import { LiveDot } from '../ui/LiveDot';
 
 interface StatusBannerProps {
   onTrailer: () => void;
@@ -11,13 +11,14 @@ interface StatusBannerProps {
  */
 export function StatusBanner({ onTrailer }: StatusBannerProps) {
   return (
-    <section className="relative z-10 border-y border-accent/[0.18] bg-gradient-to-r from-steel via-haze to-steel overflow-hidden">
+    <section className="relative z-10 border-y border-bone/[0.08] bg-void/45 backdrop-blur-md overflow-hidden">
       <div className="absolute inset-0 grid-blueprint opacity-[0.08] pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
       <div className="container-wide px-[clamp(1.25rem,4vw,4.5rem)] py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-3 relative z-10">
         <div className="flex items-center gap-3 font-mono text-[0.625rem] sm:text-xs tracking-[0.2em] uppercase">
           <LiveDot />
           <span className="text-accent text-glow-accent">Season 01 — Salvage Protocol</span>
-          <span className="hidden sm:inline-block w-px h-3 bg-white/15" />
+          <span className="hidden sm:inline-block w-px h-3 bg-bone/15" />
           <span className="hidden sm:inline text-cold">Now Live</span>
         </div>
         <button

@@ -7,12 +7,12 @@ export function CornerMarks({
 }: {
   className?: string;
   size?: number;
-  color?: "accent" | "white";
+  color?: "accent" | "bone";
 }) {
   const c =
     color === "accent"
       ? "border-accent/50 group-hover:border-accent"
-      : "border-white/25 group-hover:border-white/50";
+      : "border-bone/25 group-hover:border-bone/50";
 
   return (
     <div className={cn("pointer-events-none absolute inset-0", className)} aria-hidden>

@@ -1,13 +1,36 @@
+import { Link } from 'react-router-dom';
+
+const GAME_LINKS = [
+  { href: '/fiction', label: 'Fiction' },
+  { href: '/protocol', label: 'Protocol' },
+  { href: '/operatives', label: 'Operatives' },
+  { href: '/sectors', label: 'Sectors' },
+  { href: '/deploy', label: 'Deploy' },
+];
+
+const SOCIALS = [
+  { label: 'Discord', hint: 'Discord server — coming soon' },
+  { label: 'X', hint: 'X / Twitter — coming soon' },
+  { label: 'YouTube', hint: 'YouTube channel — coming soon' },
+];
+
+const LEGAL_LINKS = [
+  { href: '/terms', label: 'Terms of Service' },
+  { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/cookies', label: 'Cookie Policy' },
+  { href: '/eula', label: 'EULA' },
+];
+
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.06] bg-void overflow-hidden">
+    <footer className="relative border-t border-bone/[0.06] bg-void overflow-hidden">
       {/* Hazard stripe divider */}
       <div className="h-[6px] w-full hazard-stripe opacity-80" aria-hidden />
 
       <div className="container-wide px-[clamp(1.25rem,4vw,4.5rem)] py-16 md:py-20">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12">
+        <div className="flex flex-col lg:flex-row justify-between gap-12">
           <div>
-            <div className="font-display text-5xl md:text-6xl tracking-[0.03em] text-white">
+            <div className="font-display text-5xl md:text-6xl tracking-[0.03em] text-bone">
               SALVAGE
             </div>
             <p className="mt-4 font-mono text-[0.625rem] tracking-[0.2em] uppercase text-cold">
@@ -18,38 +41,66 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="flex gap-8 font-mono text-[0.625rem] tracking-[0.18em] uppercase text-cold">
-              <a href="#fiction" className="hover:text-accent transition-colors">
-                Fiction
-              </a>
-              <a href="#loop" className="hover:text-accent transition-colors">
-                Protocol
-              </a>
-              <a href="#operatives" className="hover:text-accent transition-colors">
-                Operatives
-              </a>
-              <a href="#sectors" className="hover:text-accent transition-colors">
-                Sectors
-              </a>
-            </div>
-            <div className="flex gap-6 font-mono text-[0.625rem] tracking-[0.18em] uppercase text-cold">
-              <a href="#" className="hover:text-accent transition-colors" aria-label="Discord">
-                Discord
-              </a>
-              <a href="#" className="hover:text-accent transition-colors" aria-label="X / Twitter">
-                X
-              </a>
-              <a href="#" className="hover:text-accent transition-colors" aria-label="YouTube">
-                YouTube
-              </a>
-            </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-10">
+            <nav aria-label="Game">
+              <h3 className="font-mono text-[0.625rem] tracking-[0.2em] uppercase text-cold">
+                Game
+              </h3>
+              <ul className="mt-4 space-y-2.5 text-sm font-light text-fog">
+                {GAME_LINKS.map((l) => (
+                  <li key={l.href}>
+                    <Link to={l.href} className="hover:text-accent transition-colors">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <nav aria-label="Community">
+              <h3 className="font-mono text-[0.625rem] tracking-[0.2em] uppercase text-cold">
+                Community
+              </h3>
+              <ul className="mt-4 space-y-2.5 text-sm font-light text-fog">
+                {SOCIALS.map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href="#"
+                      onClick={(e) => e.preventDefault()}
+                      title={s.hint}
+                      aria-label={`${s.label} (${s.hint})`}
+                      className="hover:text-accent transition-colors"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <nav aria-label="Legal">
+              <h3 className="font-mono text-[0.625rem] tracking-[0.2em] uppercase text-cold">
+                Legal
+              </h3>
+              <ul className="mt-4 space-y-2.5 text-sm font-light text-fog">
+                {LEGAL_LINKS.map((l) => (
+                  <li key={l.href}>
+                    <Link to={l.href} className="hover:text-accent transition-colors">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
 
-        <div className="mt-14 pt-6 border-t border-white/[0.04] flex flex-col sm:flex-row justify-between gap-3 font-mono text-[0.5625rem] tracking-[0.16em] uppercase text-cold/60">
+        <div className="mt-14 pt-6 border-t border-bone/[0.04] flex flex-col sm:flex-row justify-between gap-3 font-mono text-[0.5625rem] tracking-[0.16em] uppercase text-cold/60">
           <span>&copy; 2084 Atlas Corporation. All rights reserved.</span>
           <span>Unauthorized access will be logged and prosecuted.</span>
+          <Link to="/" className="hover:text-accent transition-colors">
+            Back to top ↑
+          </Link>
         </div>
       </div>
     </footer>

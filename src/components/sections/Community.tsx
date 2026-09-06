@@ -1,32 +1,32 @@
-import { useState, type FormEvent } from "react";
-import { motion } from "framer-motion";
-import { ease } from "../../lib/utils";
-import { MessageSquare, Mail, Send, Radio } from "lucide-react";
+import { useState, type FormEvent } from 'react';
+import { motion } from 'framer-motion';
+import { ease } from '../../lib/utils';
+import { MessageSquare, Mail, Send, Radio } from 'lucide-react';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function Community() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = email.trim();
     if (!value || !EMAIL_RE.test(value)) {
-      setError("Please enter a valid email");
+      setError('Please enter a valid email');
       setSent(false);
       return;
     }
-    setError("");
+    setError('');
     setSent(true);
-    setEmail("");
+    setEmail('');
   };
 
   return (
     <section
       id="community"
-      className="relative section-pad overflow-hidden border-t border-white/[0.04] bg-steel"
+      className="relative section-pad overflow-hidden border-t border-bone/[0.04] bg-steel"
     >
       <div className="absolute inset-0 grid-fine opacity-[0.25] pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-void/40 via-transparent to-void/40 pointer-events-none" />
@@ -39,12 +39,12 @@ export function Community() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: ease.outExpo }}
           >
-            <div className="flex items-center gap-3 mb-6 font-mono text-[0.625rem] tracking-[0.2em] uppercase">
+            <div className="inline-flex items-center gap-3 rounded-full glass-pill px-4 py-2 mb-6 font-mono text-[0.625rem] tracking-[0.2em] uppercase">
               <span className="text-accent">05</span>
-              <span className="w-8 h-px bg-accent/40" />
+              <span className="w-4 h-px bg-accent/40" />
               <span className="text-cold">The Network</span>
             </div>
-            <h2 className="text-display text-[clamp(2.25rem,5vw,3.75rem)] text-white">
+            <h2 className="text-display text-[clamp(2.25rem,5vw,3.75rem)] text-bone">
               Join the Crews
             </h2>
             <p className="mt-5 text-fog font-light leading-relaxed max-w-md">
@@ -62,7 +62,7 @@ export function Community() {
               <a
                 href="#"
                 onClick={(e) => e.preventDefault()}
-                className="btn-press inline-flex items-center gap-2.5 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.18em] px-6 py-3.5 text-fog hover:text-white border border-white/[0.12] hover:border-accent/50 clip-notch"
+                className="btn-press inline-flex items-center gap-2.5 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.18em] px-6 py-3.5 text-fog hover:text-bone border border-bone/[0.12] hover:border-accent/50 clip-notch"
               >
                 <Radio className="size-4" /> Dispatch Feed
               </a>
@@ -75,13 +75,13 @@ export function Community() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: ease.outExpo }}
-            className="hud-frame border border-white/[0.08] bg-void/40 p-6 md:p-8"
+            className="hud-frame glass-panel p-6 md:p-8"
           >
             <div className="flex items-center gap-2 text-accent">
               <Mail className="size-4" />
               <span className="text-micro tracking-[0.2em] uppercase">Dispatch Signal</span>
             </div>
-            <h3 className="font-display text-2xl text-white tracking-wide mt-3">
+            <h3 className="font-display text-2xl text-bone tracking-wide mt-3">
               Never Miss an Extraction
             </h3>
             <p className="mt-2 text-sm text-fog font-light leading-relaxed">
@@ -95,13 +95,13 @@ export function Community() {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    if (error) setError("");
+                    if (error) setError('');
                   }}
                   placeholder="contractor@atlas.corp"
                   aria-label="Email address"
                   aria-invalid={!!error}
                   aria-describedby="form-error"
-                  className="flex-1 min-w-0 bg-void/60 border border-white/10 px-4 py-3.5 font-mono text-xs tracking-[0.08em] text-white placeholder:text-cold/50 focus:border-accent/60 focus:outline-none transition-colors"
+                  className="flex-1 min-w-0 bg-void/50 backdrop-blur-md border border-bone/10 px-4 py-3.5 font-mono text-xs tracking-[0.08em] text-bone placeholder:text-cold/50 focus:border-accent/60 focus:outline-none transition-colors"
                 />
                 <button
                   type="submit"
@@ -120,7 +120,7 @@ export function Community() {
                 {error}
               </p>
             </form>
-            <div className="mt-4 pt-5 border-t border-white/[0.06]">
+            <div className="mt-4 pt-5 border-t border-bone/[0.06]">
               <span className="text-micro text-cold/50">Zero spam. Unsubscribe anytime.</span>
             </div>
           </motion.div>

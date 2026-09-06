@@ -1,16 +1,19 @@
 import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { cn, ease } from '../../lib/utils';
-import { LiveDot } from '../ui/LiveDot';
 
 const links = [
-  { href: '#fiction', label: 'Fiction' },
-  { href: '#loop', label: 'Protocol' },
-  { href: '#operatives', label: 'Operatives' },
-  { href: '#sectors', label: 'Sectors' },
+  { to: '/fiction', match: 'fiction', label: 'Fiction' },
+  { to: '/protocol', match: 'protocol', label: 'Protocol' },
+  { to: '/operatives', match: 'operatives', label: 'Operatives' },
+  { to: '/sectors', match: 'sectors', label: 'Sectors' },
 ];
 
+const MotionLink = motion(Link);
+
 export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -20,19 +23,25 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
     const onScroll = () => {
       setScrolled(window.scrollY > 60);
 
+      // On a sub-screen, highlight its entry; on home, track scroll position.
+      if (location.pathname !== '/') {
+        const m = links.find((l) => l.to === location.pathname);
+        setActive(m ? m.match : null);
+        return;
+      }
       // Active-section tracking: last section whose top passed the probe line.
       const probe = window.scrollY + window.innerHeight * 0.4;
       let current: string | null = null;
       for (const l of links) {
-        const el = document.getElementById(l.href.slice(1));
-        if (el && el.offsetTop <= probe) current = l.href.slice(1);
+        const el = document.getElementById(l.match === 'protocol' ? 'loop' : l.match);
+        if (el && el.offsetTop <= probe) current = l.match;
       }
       setActive(current);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [location.pathname]);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -73,17 +82,13 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
         >
           {/* Brand — floats free of the pill */}
           <div className="flex items-center gap-5 min-w-0">
-            <a href="#hero" className="group flex items-center gap-2">
-              <span className="font-display text-[1.4rem] tracking-[0.04em] text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] group-hover:text-accent transition-colors duration-300">
+            <Link to="/" className="group flex items-center gap-2" aria-label="SALVAGE home">
+              <span className="font-display text-[1.4rem] tracking-[0.04em] text-bone [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] group-hover:text-accent transition-colors duration-300">
                 SALVAGE
               </span>
               <span className="hidden sm:inline-block w-6 h-[3px] hazard-stripe-thin opacity-60" />
-            </a>
+            </Link>
 
-            <span className="hidden xl:flex items-center gap-2 text-micro text-cold/60">
-              <LiveDot />
-              Servers Online
-            </span>
           </div>
 
           {/* Floating glass pill — links + integrated CTA */}
@@ -95,26 +100,26 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
           >
             <ul className="nav-links flex items-center gap-0.5">
               {links.map((l) => {
-                const isActive = active === l.href.slice(1);
+                const isActive = active === l.match;
                 return (
-                  <li key={l.href}>
-                    <a
-                      href={l.href}
+                  <li key={l.to}>
+                    <Link
+                      to={l.to}
                       className={cn(
                         'relative rounded-full px-4 py-2 font-mono text-[0.625rem] font-medium uppercase tracking-[0.2em] transition-all duration-300',
                         isActive
                           ? 'text-accent bg-accent/10'
-                          : 'text-fog hover:text-white hover:bg-white/[0.06]',
+                          : 'text-fog hover:text-bone hover:bg-bone/[0.06]',
                       )}
                     >
                       {l.label}
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
             </ul>
 
-            <span className="mx-2 h-5 w-px bg-white/10" aria-hidden />
+            <span className="mx-2 h-5 w-px bg-bone/10" aria-hidden />
 
             <button
               onClick={onDeploy}
@@ -128,7 +133,7 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
           <button
             id="mobile-toggle"
             className={cn(
-              'md:hidden relative size-11 rounded-full flex items-center justify-center glass-pill text-fog hover:text-white transition-colors',
+              'md:hidden relative size-11 rounded-full flex items-center justify-center glass-pill text-fog hover:text-bone transition-colors',
               scrolled && 'glass-pill-solid',
             )}
             onClick={toggle}
@@ -172,14 +177,14 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
             />
             <motion.div
               id="mobile-menu"
-              className="active fixed top-0 right-0 z-50 h-full w-[min(100%,320px)] bg-void/85 backdrop-blur-2xl border-l border-white/10 md:hidden flex flex-col"
+              className="active fixed top-0 right-0 z-50 h-full w-[min(100%,320px)] bg-void/85 backdrop-blur-2xl border-l border-bone/10 md:hidden flex flex-col"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.4, ease: ease.outExpo }}
             >
-              <div className="flex items-center justify-between h-16 px-6 border-b border-white/[0.06]">
-                <span className="font-display text-lg text-white">SALVAGE</span>
+              <div className="flex items-center justify-between h-16 px-6 border-b border-bone/[0.06]">
+                <span className="font-display text-lg text-bone">SALVAGE</span>
                 <button
                   onClick={close}
                   className="text-micro text-fog hover:text-accent transition-colors px-2 py-2"
@@ -189,14 +194,14 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
               </div>
               <div className="flex flex-col p-6 flex-1">
                 {links.map((l, i) => (
-                  <motion.a
-                    key={l.href}
-                    href={l.href}
+                  <MotionLink
+                    key={l.to}
+                    to={l.to}
                     className={cn(
-                      'font-display text-3xl py-4 border-b border-white/[0.05] transition-colors',
-                      active === l.href.slice(1)
+                      'font-display text-3xl py-4 border-b border-bone/[0.05] transition-colors',
+                      active === l.match
                         ? 'text-accent'
-                        : 'text-white/90 hover:text-accent',
+                        : 'text-bone/90 hover:text-accent',
                     )}
                     onClick={close}
                     initial={{ opacity: 0, x: 20 }}
@@ -204,10 +209,10 @@ export function Navbar({ onDeploy }: { onDeploy?: () => void }) {
                     transition={{ delay: 0.05 * i + 0.1, ease: ease.outExpo }}
                   >
                     {l.label}
-                  </motion.a>
+                  </MotionLink>
                 ))}
               </div>
-              <div className="p-6 border-t border-white/[0.06]">
+              <div className="p-6 border-t border-bone/[0.06]">
                 <button
                   onClick={() => {
                     close();

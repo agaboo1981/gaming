@@ -58,7 +58,7 @@ export function Particles() {
         if (p.y > h) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(201,162,39,${p.a})`;
+        ctx.fillStyle = `rgba(59,130,246,${p.a})`;
         ctx.fill();
       }
       raf = requestAnimationFrame(draw);
@@ -81,7 +81,7 @@ export function Particles() {
   return (
     <canvas
       ref={canvas}
-      className="pointer-events-none fixed inset-0 z-[1] opacity-60 mix-blend-screen"
+      className="pointer-events-none fixed inset-0 z-[1] opacity-60 mix-blend-multiply"
       aria-hidden
     />
   );

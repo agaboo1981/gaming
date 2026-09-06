@@ -39,7 +39,7 @@ export function Starfield({ count = 1500, radius = 60 }: StarfieldProps) {
         <pointsMaterial
           size={0.12}
           sizeAttenuation
-          color={"#e8e6e0"}
+          color={"#1a1a2e"}
           transparent
           opacity={0.85}
           depthWrite={false}
@@ -50,7 +50,7 @@ export function Starfield({ count = 1500, radius = 60 }: StarfieldProps) {
         <pointsMaterial
           size={0.22}
           sizeAttenuation
-          color={"#ffd874"}
+          color={"#3b82f6"}
           transparent
           opacity={0.9}
           depthWrite={false}

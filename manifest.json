@@ -4,9 +4,11 @@
   "description": "Orbital extraction shooter. Only the team with the payload leaves.",
   "start_url": "/",
   "scope": "/",
+  "id": "/",
+  "categories": ["games", "entertainment"],
   "display": "standalone",
-  "background_color": "#060607",
-  "theme_color": "#d4a017",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
   "icons": [
     {
       "src": "assets/icons/favicon.svg",
