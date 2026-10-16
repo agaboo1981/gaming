@@ -50,6 +50,14 @@ const robotsTxt = ['User-agent: *', 'Allow: /', '', `Sitemap: ${siteUrl}/sitemap
 fs.writeFileSync(path.join(rootDir, 'sitemap.xml'), sitemapXml, 'utf8');
 fs.writeFileSync(path.join(rootDir, 'robots.txt'), robotsTxt, 'utf8');
 
+// Also emit into public/ so Vite copies them into dist/ and they are
+// actually served in production (root files alone never reach dist/).
+const publicDir = path.join(rootDir, 'public');
+if (fs.existsSync(publicDir)) {
+  fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml, 'utf8');
+  fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt, 'utf8');
+}
+
 if (siteUrl === DEFAULT_SITE_URL) {
   console.log(`SEO files generated for default SITE_URL=${DEFAULT_SITE_URL}`);
 } else {

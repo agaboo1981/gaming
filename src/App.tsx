@@ -9,14 +9,8 @@ import {
 } from "react-router-dom";
 import { Navbar } from "./components/layout/Navbar";
 import { Footer } from "./components/layout/Footer";
-import { ScrollProgress } from "./components/system/ScrollProgress";
-import { Particles } from "./components/system/Particles";
-import { Ticker } from "./components/system/Ticker";
 import { Modal } from "./components/system/Modal";
-import { StatusBanner } from "./components/system/StatusBanner";
 import { Hero } from "./components/sections/Hero";
-import { Intel } from "./components/sections/Intel";
-import { Community } from "./components/sections/Community";
 import { Fiction } from "./components/sections/Fiction";
 import { Loop } from "./components/sections/Loop";
 import { Operatives } from "./components/sections/Operatives";
@@ -25,50 +19,50 @@ import { Deploy } from "./components/sections/Deploy";
 import { LegalScreen } from "./components/screens/LegalScreen";
 
 const SITE_DESC =
-  "SALVAGE — orbital extraction shooter. Six factions. Abandoned refineries. One payload leaves the station. Only the team carrying it goes with it.";
+  "SALVAGE: orbital extraction shooter. Six factions. Abandoned refineries. One payload leaves the station. Only the team carrying it goes with it.";
 
 const ROUTE_META: Record<string, { title: string; desc: string }> = {
-  "/": { title: "SALVAGE — Orbital Extraction Shooter", desc: SITE_DESC },
+  "/": { title: "SALVAGE: Orbital Extraction Shooter", desc: SITE_DESC },
   "/fiction": {
-    title: "Fiction — SALVAGE",
+    title: "Fiction: SALVAGE",
     desc: "Atlas left. You didn't. The story behind the abandoned orbital grid and the six factions fighting over it.",
   },
   "/protocol": {
-    title: "Combat Protocol — SALVAGE",
-    desc: "Three beats. Zero mercy. Insert, secure, extract — the one-clock match loop of SALVAGE.",
+    title: "Combat Protocol: SALVAGE",
+    desc: "Three beats. Zero mercy. Insert, secure, extract: the one-clock match loop of SALVAGE.",
   },
   "/operatives": {
-    title: "Operatives — SALVAGE",
-    desc: "Pick your ghost. Breacher, recon, engineer, assault — four contractors cleared for deployment.",
+    title: "Operatives: SALVAGE",
+    desc: "Pick your ghost. Breacher, recon, engineer, assault: four contractors cleared for deployment.",
   },
   "/sectors": {
-    title: "Sectors — SALVAGE",
+    title: "Sectors: SALVAGE",
     desc: "Deployment zones: Refinery Core, Cryo-Vault 4, Shipbreaker Yard, and the Logistics Hub.",
   },
   "/deploy": {
-    title: "Deploy — SALVAGE",
+    title: "Deploy: SALVAGE",
     desc: "Get to the station. Free to play on PC, PlayStation 5, and Xbox Series X|S.",
   },
   "/terms": {
-    title: "Terms of Service — SALVAGE",
+    title: "Terms of Service: SALVAGE",
     desc: "The rules of the station: license, fair passage, and service terms for SALVAGE.",
   },
   "/privacy": {
-    title: "Privacy Policy — SALVAGE",
+    title: "Privacy Policy: SALVAGE",
     desc: "How Atlas Corporation handles data across the SALVAGE service.",
   },
   "/cookies": {
-    title: "Cookie Policy — SALVAGE",
-    desc: "What this site stores in your hold — and how to clear it.",
+    title: "Cookie Policy: SALVAGE",
+    desc: "What this site stores in your hold: and how to clear it.",
   },
   "/eula": {
-    title: "End-User License Agreement — SALVAGE",
+    title: "End-User License Agreement: SALVAGE",
     desc: "License terms for the SALVAGE game client.",
   },
 };
 
 const NOT_FOUND_META = {
-  title: "Signal Lost — SALVAGE",
+  title: "Signal Lost: SALVAGE",
   desc: "This sector is off the charts. Return to base.",
 };
 
@@ -99,19 +93,19 @@ function ScreenShell({ children }: { children: ReactNode }) {
 function NotFound() {
   return (
     <section className="section-pad">
-      <div className="container-wide text-center">
-        <p className="text-micro text-accent">Signal Lost // 404</p>
-        <h1 className="text-display text-[clamp(2.5rem,6vw,4.5rem)] text-bone mt-4">
-          Dead Frequency.
+      <div className="container-wide text-center px-[var(--margin)]">
+        <p className="text-base font-semibold text-cold">Signal lost</p>
+        <h1 className="text-display text-bone mt-4 sec-head">
+          Dead frequency.
         </h1>
-        <p className="mt-4 text-fog font-light leading-relaxed">
+        <p className="mt-4 text-lg leading-relaxed">
           This sector is off the charts. The shuttle never left for it.
         </p>
         <Link
           to="/"
-          className="btn-press inline-flex items-center mt-8 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.18em] px-8 py-4 bg-accent text-void clip-notch hover:bg-accent-hot"
+          className="btn-press inline-flex items-center mt-8 font-display text-base font-semibold px-8 py-4 bg-bone text-void clip-notch"
         >
-          Return to Base
+          Return to base
         </Link>
       </div>
     </section>
@@ -134,18 +128,11 @@ function Site() {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen w-full bg-void text-bone">
+    <div className="min-h-[100svh] w-full bg-void text-bone">
       <a href="#main" className="skip-link">
         Skip to content
       </a>
 
-      <div
-        className="fixed inset-0 pointer-events-none z-[1] opacity-[0.03] bg-noise"
-        aria-hidden
-      />
-      <Particles />
-
-      <ScrollProgress />
       <ScrollManager />
       <Navbar onDeploy={goDeploy} />
 
@@ -155,14 +142,11 @@ function Site() {
           element={
             <main id="main" className="relative z-[2]">
               <Hero onDeploy={goDeploy} onTrailer={openModal} />
-              <StatusBanner onTrailer={openModal} />
-              <Intel />
-              <Ticker />
               <Fiction />
               <Loop />
+              <div className="h-[10px] w-full bg-accent" aria-hidden />
               <Operatives />
               <Sectors />
-              <Community />
               <Deploy onTrailer={openModal} />
             </main>
           }

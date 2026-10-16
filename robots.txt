@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://gaming-ecru-phi.vercel.app/sitemap.xml

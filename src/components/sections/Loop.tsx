@@ -1,115 +1,78 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ease } from '../../lib/utils';
 
 const beats = [
   {
-    n: '01',
-    title: 'Insert',
-    body: "Drop-pods punch through the station hull at terminal velocity. Landing zones shift every cycle. You hit the floor running or you don't hit the floor at all.",
-    tag: 'Drop-Pod Phase',
+    title: 'Drop in',
+    body: 'Pods punch the hull at terminal velocity. Landing zones shift every cycle. Hit the floor running.',
+    image: '/assets/images/hero.png',
+    alt: 'Drop pods over the refinery',
+    tile: '30vh',
   },
   {
-    n: '02',
-    title: 'Secure',
-    body: 'Breach the defense grid. Contest the extraction ports. Hold corridors while your specialist cracks the refinery core. Every second on-station burns oxygen and luck.',
-    tag: 'Breach & Hold',
+    title: 'Crack the core',
+    body: 'Contest the ports and hold the corridors while your specialist opens the Class-3 bulkheads.',
+    image: '/assets/images/sector-refinery.png',
+    alt: 'Refinery core atrium',
+    tile: '44vh',
   },
   {
-    n: '03',
-    title: 'Extract',
-    body: 'Signal the shuttle. Defend the pad. Only the team carrying the payload is cleared for departure. Everyone else stays. Permanently.',
-    tag: 'Payload Priority',
+    title: 'Carry it out',
+    body: 'Signal the shuttle and defend the pad. Only the squad holding the rods boards.',
+    image: '/assets/images/sector-cryo.png',
+    alt: 'Extraction pad in coolant fog',
+    tile: '60vh',
   },
 ];
 
+/** Tiles that grow: order carried by size, text under each tile. */
 export function Loop() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-  const railScale = useTransform(scrollYProgress, [0.1, 0.75], [0, 1]);
-
   return (
-    <section
-      ref={ref}
-      id="loop"
-      className="relative section-pad overflow-hidden bg-void border-t border-bone/[0.04]"
-    >
-      <div className="absolute inset-0 grid-blueprint opacity-[0.12] pointer-events-none" />
-      <div className="container-wide relative z-10">
-        {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 md:mb-24">
-          <motion.div
-            className="lg:col-span-6"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: ease.outExpo }}
-          >
-            <div className="inline-flex items-center gap-3 rounded-full glass-pill px-4 py-2 mb-6 font-mono text-[0.625rem] tracking-[0.2em] uppercase">
-              <span className="text-accent">02</span>
-              <span className="w-4 h-px bg-accent/40" />
-              <span className="text-cold">Combat Protocol</span>
-            </div>
-            <h2 className="text-display text-[clamp(2.5rem,6vw,4.5rem)] text-bone">
-              Three Beats.
-              <br />
-              <span className="text-fog">Zero Mercy.</span>
-            </h2>
-          </motion.div>
-          <motion.p
-            className="lg:col-span-4 lg:col-start-9 self-end text-fog font-light text-lg leading-relaxed lg:text-right"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.15, ease: ease.outExpo }}
-          >
-            Matches play like a compressed war film. No respawn lottery. One objective. One clock.
-            One team leaves with the rods.
-          </motion.p>
-        </div>
+    <section id="loop" className="relative bg-steel">
+      <div className="section-pad container-wide px-[var(--margin)]">
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: ease.outExpo }}
+          className="text-display text-bone sec-head"
+        >
+          Three beats.
+        </motion.h2>
 
-        {/* Phase bands with left rail */}
-        <div className="relative pl-8 md:pl-0">
-          {/* Left rail */}
-          <div className="absolute left-0 md:left-[7rem] top-0 bottom-0 w-px bg-bone/[0.06]" />
-          <motion.div
-            className="absolute left-0 md:left-[7rem] top-0 w-px bg-accent origin-top"
-            style={{ scaleY: railScale, height: '100%' }}
-          />
-
-          <div className="flex flex-col">
-            {beats.map((b, i) => (
-              <motion.article
-                key={b.n}
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.7, delay: i * 0.06, ease: ease.outExpo }}
-                className="relative grid grid-cols-1 md:grid-cols-[7rem_1fr] gap-4 md:gap-12 items-start py-10 md:py-14 border-b border-bone/[0.06] last:border-b-0"
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-3 items-end">
+          {beats.map((b, i) => (
+            <motion.div
+              key={b.title}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.7, delay: i * 0.08, ease: ease.outExpo }}
+              className={
+                i === 0
+                  ? 'md:col-span-3'
+                  : i === 1
+                    ? 'md:col-span-4'
+                    : 'md:col-span-5'
+              }
+            >
+              <div
+                className="clip-notch bg-void overflow-hidden"
+                style={{ height: b.tile, minHeight: '220px' }}
               >
-                {/* Node on rail */}
-                <div className="absolute left-0 md:left-[7rem] top-12 -translate-x-1/2 z-10 size-3 bg-accent rounded-full shadow-[0_0_12px_var(--color-accent)]" />
-
-                {/* Phase designation */}
-                <div className="md:text-right md:pr-4">
-                  <div className="text-micro text-cold/60 tracking-[0.2em]">Phase</div>
-                  <div className="font-display text-4xl text-bone/20 leading-none mt-1">{b.n}</div>
-                </div>
-
-                {/* Content */}
-                <div className="md:pl-8">
-                  <span className="text-micro text-accent">{b.tag}</span>
-                  <h3 className="text-display text-[clamp(2rem,4vw,3rem)] text-bone mt-2 leading-none">
-                    {b.title}
-                  </h3>
-                  <p className="mt-4 text-fog font-light leading-relaxed max-w-xl">{b.body}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
+                <img
+                  src={b.image}
+                  alt={b.alt}
+                  width={900}
+                  height={900}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="mt-5 font-display text-xl text-bone">{b.title}</h3>
+              <p className="mt-2 text-base leading-relaxed text-ink max-w-[34ch]">{b.body}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

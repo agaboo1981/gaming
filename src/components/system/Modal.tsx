@@ -8,7 +8,7 @@ interface ModalProps {
   title?: string;
 }
 
-export function Modal({ open, onClose, title = 'Encrypted Transmission' }: ModalProps) {
+export function Modal({ open, onClose, title = 'Encrypted transmission' }: ModalProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<Element | null>(null);
 
@@ -55,51 +55,48 @@ export function Modal({ open, onClose, title = 'Encrypted Transmission' }: Modal
           exit={{ opacity: 0 }}
         >
           <div
-            className="modal-backdrop absolute inset-0 bg-void/90 backdrop-blur-md"
+            className="modal-backdrop absolute inset-0 bg-bone"
+            style={{ opacity: 0.92 }}
             onClick={onClose}
             aria-hidden
           />
 
           <motion.div
-            className="relative w-full max-w-2xl border border-bone/10 bg-void/85 backdrop-blur-2xl clip-frame overflow-hidden shadow-2xl"
-            initial={{ opacity: 0, y: 28, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.98 }}
+            className="relative w-full max-w-2xl bg-void clip-notch overflow-hidden"
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.45, ease: ease.outExpo }}
           >
-            <div className="absolute inset-0 grid-fine opacity-40 pointer-events-none" />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
-
-            <div className="relative flex items-center justify-between px-6 py-4 border-b border-bone/8">
+            <div className="flex items-center justify-between px-6 py-4 bg-steel">
               <div>
-                <p id="modal-title" className="text-micro text-accent">
-                  Signal Stream
-                </p>
-                <p className="font-display text-2xl text-bone tracking-wide mt-1">{title}</p>
+                <p className="text-sm font-semibold text-cold">Signal stream</p>
+                <p id="modal-title" className="font-display text-2xl text-bone mt-1">{title}</p>
               </div>
               <button
                 id="modal-close-btn"
                 ref={closeRef}
                 onClick={onClose}
-                className="text-micro text-fog hover:text-bone px-3 py-2 border border-bone/10 hover:border-bone/25 transition-colors data-interactive"
+                className="btn-press text-base font-medium text-bone px-4 py-2 bg-steel clip-notch-sm"
                 data-interactive
                 aria-label="Close transmission"
               >
-                Close [ESC]
+                Close
               </button>
             </div>
 
-            <div className="relative aspect-video bg-black scanlines flex items-center justify-center">
-              <div className="absolute inset-0 bg-[url('/assets/images/conflict_bg.jpg')] bg-cover bg-center opacity-30" />
-              <div className="absolute inset-0 bg-gradient-to-t from-void/50 via-transparent to-void/20" />
+            <div className="relative aspect-video bg-bone flex items-center justify-center overflow-hidden">
+              <img
+                src="/assets/images/conflict_bg.jpg"
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ opacity: 0.35 }}
+              />
               <div className="relative z-10 text-center px-8">
-                <div className="mx-auto mb-5 size-16 rounded-full border border-accent/40 flex items-center justify-center">
-                  <div className="w-0 h-0 border-y-[8px] border-y-transparent border-l-[14px] border-l-accent ml-1" />
-                </div>
-                <p className="font-display text-3xl md:text-4xl text-bone tracking-wide">
-                  Field Recording 07
+                <p className="font-display text-3xl md:text-4xl text-void">
+                  Field recording 07
                 </p>
-                <p className="text-label text-fog mt-3 max-w-sm mx-auto normal-case tracking-normal font-body font-light">
+                <p className="text-base text-void mt-3 max-w-sm mx-auto">
                   Drop-pod insertion over Sector STN-07. Payload integrity unverified.
                 </p>
               </div>

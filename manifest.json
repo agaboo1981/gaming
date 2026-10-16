@@ -7,8 +7,8 @@
   "id": "/",
   "categories": ["games", "entertainment"],
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "background_color": "#f7f7f7",
+  "theme_color": "#0d2a1c",
   "icons": [
     {
       "src": "assets/icons/favicon.svg",
